@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Korzyści HR - Nais</title>
+    <!-- Google Fonts: Montserrat dla nagłówków, Open Sans dla tekstu -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- HEADER -->
+        <header class="app-header">
+            <a href="https://nais.co" class="logo-link" target="_blank" rel="noopener noreferrer">
+                <img src="https://cdn.prod.website-files.com/66604cf21ffe1f9273e75a1b/6a0cbc497400d249b49da128_nais-grupa-v2.svg" alt="Nais Logo" class="brand-logo">
+            </a>
+        </header>
+
+        <!-- PROGRESS BAR -->
+        <div class="progress-bar-container" id="progress-bar-wrapper">
+            <div class="progress-steps">
+                <div class="step-item active" id="step-1-indicator">
+                    <div class="step-number">1</div>
+                    <div class="step-label">Twoja firma</div>
+                </div>
+                <div class="step-line"></div>
+                <div class="step-item" id="step-2-indicator">
+                    <div class="step-number">2</div>
+                    <div class="step-label">Procesy HR</div>
+                </div>
+                <div class="step-line"></div>
+                <div class="step-item" id="step-3-indicator">
+                    <div class="step-number">3</div>
+                    <div class="step-label">Komunikacja</div>
+                </div>
+                <div class="step-line"></div>
+                <div class="step-item" id="step-4-indicator">
+                    <div class="step-number">4</div>
+                    <div class="step-label">Wyniki</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MAIN SCENE CONTAINER -->
+        <main class="app-main">
+            
+            <!-- SCREEN 1: TWOJA FIRMA -->
+            <section class="screen active" id="screen-company">
+                <h1 class="screen-title">Wprowadź podstawowe dane o swojej firmie</h1>
+                <p class="screen-subtitle">Pozwoli nam to dopasować benchmarki 200+ wdrożeń NAIS do specyfiki Twojej organizacji.</p>
+
+                <div class="form-group">
+                    <label class="input-label">Liczba pracowników</label>
+                    <div class="tiles-grid tiles-employees">
+                        <label class="tile-option" for="emp-under1k">
+                            <input type="radio" name="employee-count" id="emp-under1k" value="under1k">
+                            <div class="tile-content">
+                                <span class="tile-title">Poniżej 1 000</span>
+                            </div>
+                        </label>
+                        <label class="tile-option" for="emp-1k-5k">
+                            <input type="radio" name="employee-count" id="emp-1k-5k" value="1k-5k">
+                            <div class="tile-content">
+                                <span class="tile-title">1 000 – 5 000</span>
+                            </div>
+                        </label>
+                        <label class="tile-option" for="emp-5k-10k">
+                            <input type="radio" name="employee-count" id="emp-5k-10k" value="5k-10k">
+                            <div class="tile-content">
+                                <span class="tile-title">5 000 – 10 000</span>
+                            </div>
+                        </label>
+                        <label class="tile-option" for="emp-10k-20k">
+                            <input type="radio" name="employee-count" id="emp-10k-20k" value="10k-20k">
+                            <div class="tile-content">
+                                <span class="tile-title">10 000 – 20 000</span>
+                            </div>
+                        </label>
+                        <label class="tile-option" for="emp-20k-40k">
+                            <input type="radio" name="employee-count" id="emp-20k-40k" value="20k-40k">
+                            <div class="tile-content">
+                                <span class="tile-title">20 000 – 40 000</span>
+                            </div>
+                        </label>
+                        <label class="tile-option" for="emp-40k-100k">
+                            <input type="radio" name="employee-count" id="emp-40k-100k" value="40k-100k">
+                            <div class="tile-content">
+                                <span class="tile-title">40 000 – 100 000</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="input-label">Wynagrodzenie na tle średniej krajowej (ok. 8 000 PLN brutto)</label>
+                    <div class="tiles-grid tiles-salary">
+                        <label class="tile-option" for="sal-low">
+                            <input type="radio" name="salary-level" id="sal-low" value="low">
+                            <div class="tile-content">
+                                <span class="tile-title">Wyraźnie poniżej średniej</span>
+                                <span class="tile-desc">ok. −30% lub więcej</span>
+                            </div>
+                        </label>
+                        <label class="tile-option" for="emp-average">
+                            <input type="radio" name="salary-level" id="emp-average" value="average">
+                            <div class="tile-content">
+                                <span class="tile-title">Na poziomie średniej</span>
+                                <span class="tile-desc">±10% od średniej krajowej</span>
+                            </div>
+                        </label>
+                        <label class="tile-option" for="emp-above">
+                            <input type="radio" name="salary-level" id="emp-above" value="above">
+                            <div class="tile-content">
+                                <span class="tile-title">Powyżej średniej</span>
+                                <span class="tile-desc">ok. +30%</span>
+                            </div>
+                        </label>
+                        <label class="tile-option" for="emp-high">
+                            <input type="radio" name="salary-level" id="emp-high" value="high">
+                            <div class="tile-content">
+                                <span class="tile-title">Wyraźnie powyżej średniej</span>
+                                <span class="tile-desc">ok. +60% i więcej</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="input-label" for="industry-select">Branża</label>
+                    <select id="industry-select" class="form-select">
+                        <option value="" disabled selected>Wybierz branżę...</option>
+                        <option value="production">Produkcja i przemysł</option>
+                        <option value="logistics">Handel i logistyka</option>
+                        <option value="energy">Energetyka i utilities</option>
+                        <option value="finance">Usługi finansowe i ubezpieczenia</option>
+                        <option value="it">IT i technologie</option>
+                        <option value="healthcare">Ochrona zdrowia i farmacja</option>
+                        <option value="retail">Handel detaliczny</option>
+                        <option value="other">Inna</option>
+                    </select>
+                </div>
+
+                <div class="actions-wrapper">
+                    <button type="button" class="btn btn-primary" id="btn-screen-1-next" disabled>Dalej →</button>
+                </div>
+            </section>
+
+            <!-- EKRAN DYSKWALIFIKACJI (poniżej 1000) -->
+            <section class="screen" id="screen-disqualified">
+                <div class="disqualified-box">
+                    <div class="info-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#E2A500" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 8V12" stroke="#E2A500" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 16H12.01" stroke="#E2A500" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h1 class="screen-title text-centered">Ta kalkulacja działa dla firm powyżej 1 000 pracowników</h1>
+                    <div class="disqualified-text">
+                        <p>Przepraszamy — w mniejszych organizacjach statystyczne benchmarki, na których opieramy kalkulację, przestają działać wiarygodnie. Każda firma poniżej tego progu jest zbyt unikalna, żeby liczby miały sens bez rozmowy.</p>
+                        <p>Ale to nie znaczy, że nie możemy Ci pomóc. Nasz konsultant przeprowadzi analizę indywidualnie — na podstawie Twoich rzeczywistych danych, nie uśrednień.</p>
+                    </div>
+
+                    <form id="disqualified-form" class="disqualified-form">
+                        <div class="form-row">
+                            <div class="form-group-half">
+                                <label for="disq-name" class="input-label-sm">Imię i nazwisko</label>
+                                <input type="text" id="disq-name" class="form-input" placeholder="Wpisz imię i nazwisko" required>
+                            </div>
+                            <div class="form-group-half">
+                                <label for="disq-email" class="input-label-sm">Służbowy e-mail</label>
+                                <input type="email" id="disq-email" class="form-input" placeholder="adres@firma.pl" required>
+                                <span class="error-msg" id="disq-email-error"></span>
+                            </div>
+                        </div>
+                        <div class="form-group-checkbox">
+                            <label class="checkbox-label" for="disq-gdpr">
+                                <input type="checkbox" id="disq-gdpr" required>
+                                <span class="checkbox-text">Wyrażam zgodę na przetwarzanie moich danych osobowych zgodnie z RODO w celu otrzymania materiałów marketingowych od NAIS.</span>
+                            </label>
+                        </div>
+                        <div class="disqualified-actions">
+                            <button type="submit" class="btn btn-primary btn-block" id="btn-disq-submit">Umów indywidualną rozmowę →</button>
+                            <span class="btn-subtext">Bezpłatnie. Bez zobowiązań. Odpiszemy w ciągu jednego dnia roboczego.</span>
+                        </div>
+                    </form>
+
+                    <div class="back-link-wrapper">
+                        <button type="button" class="btn-back-text" id="btn-disq-back">← Wróć i zmień dane</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- EKRAN 2: PROCESY HR -->
+            <section class="screen" id="screen-processes">
+                <h1 class="screen-title">Jaka część procesów HR odbywa się u Was papierowo lub przez e-mail?</h1>
+                <p class="screen-subtitle">Uwzględnij m.in. wnioski o urlopy, wnioski ZFŚS, wnioski o benefity, oświadczenia i deklaracje płacowe.</p>
+
+                <div class="slider-wrapper">
+                    <div class="slider-value-display">
+                        <span id="slider-percentage-value">45</span>%
+                    </div>
+                    <input type="range" id="paper-processes-slider" min="0" max="100" step="10" value="45" class="app-slider">
+                    <div class="slider-labels">
+                        <span>0% (W pełni cyfrowo)</span>
+                        <span>50%</span>
+                        <span>100% (W pełni papierowo)</span>
+                    </div>
+                </div>
+
+                <div class="benchmark-info-box">
+                    <div class="benchmark-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#108A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 16V12" stroke="#108A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 8H12.01" stroke="#108A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <p class="benchmark-text" id="benchmark-processes-text">
+                        Firmy podobnej wielkości obsługują średnio 45% procesów HR jeszcze papierowo — dane z 200+ wdrożeń NAIS.
+                    </p>
+                </div>
+
+                <div class="actions-wrapper flex-between">
+                    <button type="button" class="btn btn-secondary" id="btn-screen-2-back">← Wstecz</button>
+                    <button type="button" class="btn btn-primary" id="btn-screen-2-next">Dalej →</button>
+                </div>
+            </section>
+
+            <!-- EKRAN 3: LUDZIE I KOMUNIKACJA -->
+            <section class="screen" id="screen-people">
+                
+                <div class="form-group">
+                    <label class="input-label">Jak oceniasz zaangażowanie pracowników w Twojej firmie?</label>
+                    <div class="tiles-grid tiles-engagement">
+                        <label class="tile-option" for="eng-high">
+                            <input type="radio" name="engagement-level" id="eng-high" value="high">
+                            <div class="tile-content">
+                                <span class="tile-title">Wysokie</span>
+                                <span class="tile-desc">Mnożnik zaangażowania: 55%. Większość zmotywowana, mało rotacji, polecają firmę.</span>
+                            </div>
+                        </label>
+                        <label class="tile-option" for="eng-medium">
+                            <input type="radio" name="engagement-level" id="eng-medium" value="medium">
+                            <div class="tile-content">
+                                <span class="tile-title">Przeciętne</span>
+                                <span class="tile-desc">Mnożnik zaangażowania: 30%. Część robi minimum, rotacja na poziomie rynkowym.</span>
+                            </div>
+                        </label>
+                        <label class="tile-option" for="eng-low">
+                            <input type="radio" name="engagement-level" id="eng-low" value="low">
+                            <div class="tile-content">
+                                <span class="tile-title">Niskie</span>
+                                <span class="tile-desc">Mnożnik zaangażowania: 15%. Czuć zniechęcenie, wysoka rotacja, trudna rekrutacja.</span>
+                            </div>
+                        </label>
+                        <label class="tile-option" for="eng-unknown">
+                            <input type="radio" name="engagement-level" id="eng-unknown" value="unknown">
+                            <div class="tile-content">
+                                <span class="tile-title">Nie wiem / nie mierzyliśmy</span>
+                                <span class="tile-desc">Benchmark Gallup 2025: 23% zaangażowanych.</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="input-label">Jak oceniasz komunikację firmy z pracownikami?</label>
+                    <p class="input-subtitle">Oceń stopień wykorzystania benefitów przez pracowników.</p>
+                    <div class="tiles-grid tiles-communication">
+                        <label class="tile-option" for="comm-good">
+                            <input type="radio" name="communication-level" id="comm-good" value="good">
+                            <div class="tile-content">
+                                <span class="tile-title">Dobra</span>
+                                <span class="tile-desc">Wykorzystanie benefitów: 78%. Pracownicy wiedzą, co im przysługuje i korzystają. Mało pytań.</span>
+                            </div>
+                        </label>
+                        <label class="tile-option" for="comm-medium">
+                            <input type="radio" name="communication-level" id="comm-medium" value="medium">
+                            <div class="tile-content">
+                                <span class="tile-title">Przeciętna</span>
+                                <span class="tile-desc">Wykorzystanie benefitów: 58%. Świadczenia przepadają, część informacji nie dociera.</span>
+                            </div>
+                        </label>
+                        <label class="tile-option" for="comm-bad">
+                            <input type="radio" name="communication-level" id="comm-bad" value="bad">
+                            <div class="tile-content">
+                                <span class="tile-title">Słaba</span>
+                                <span class="tile-desc">Wykorzystanie benefitów: 38%. Dużo skarg i pytań, powtarzające się nieporozumienia.</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="actions-wrapper flex-between">
+                    <button type="button" class="btn btn-secondary" id="btn-screen-3-back">← Wstecz</button>
+                    <button type="button" class="btn btn-primary" id="btn-screen-3-next" disabled>Dalej →</button>
+                </div>
+            </section>
+
+            <!-- EKRAN 4: BRAMKA LEADOWA -->
+            <section class="screen" id="screen-gate">
+                <h1 class="screen-title">Twoja analiza jest gotowa</h1>
+                <p class="screen-subtitle">Zostaw dane — konsultant NAIS prześle Ci pełny raport z wyliczeniami w ciągu jednego dnia roboczego.</p>
+
+                <form id="lead-form" class="lead-form">
+                    <div class="form-group">
+                        <label for="lead-name" class="input-label">Imię i nazwisko</label>
+                        <input type="text" id="lead-name" class="form-input" placeholder="Wpisz imię i nazwisko" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lead-email" class="input-label">Służbowy adres e-mail</label>
+                        <input type="email" id="lead-email" class="form-input" placeholder="imię.nazwisko@twojafirma.pl" required>
+                        <span class="error-msg" id="lead-email-error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lead-role" class="input-label">Stanowisko</label>
+                        <select id="lead-role" class="form-select" required>
+                            <option value="" disabled selected>Wybierz stanowisko...</option>
+                            <option value="hr">Dyrektor / Specjalista HR</option>
+                            <option value="cxo">CEO / CFO / Zarząd</option>
+                            <option value="manager">Menedżer</option>
+                            <option value="other">Inne</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group-checkbox">
+                        <label class="checkbox-label" for="lead-gdpr">
+                            <input type="checkbox" id="lead-gdpr" required>
+                            <span class="checkbox-text">Wyrażam zgodę na przetwarzanie moich danych osobowych zgodnie z RODO w celu otrzymania materiałów marketingowych od NAIS.</span>
+                        </label>
+                    </div>
+
+                    <div class="actions-wrapper flex-between margin-top-32">
+                        <button type="button" class="btn btn-secondary" id="btn-screen-4-back">← Wstecz</button>
+                        <button type="submit" class="btn btn-primary" id="btn-screen-4-submit">Pokaż mi wyniki →</button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- LOADING SCREEN / SIMULATION (Wizualne uwiarygodnienie) -->
+            <section class="screen" id="screen-loading">
+                <div class="loading-container">
+                    <div class="spinner"></div>
+                    <h2 class="loading-title">Przetwarzanie danych...</h2>
+                    <p class="loading-text">Porównujemy Twoje odpowiedzi z benchmarkami 200+ klientów NAIS.</p>
+                    <ul class="loading-steps">
+                        <li id="load-step-1" class="pending">Analizowanie wielkości i struktury firmy...</li>
+                        <li id="load-step-2" class="pending">Obliczanie oszczędności czasu HR i pracowników...</li>
+                        <li id="load-step-3" class="pending">Estymacja wpływu na produktywność i zaangażowanie...</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- STRONA WYNIKOWA -->
+            <section class="screen" id="screen-results">
+                <div class="results-header">
+                    <h1 class="results-title">Oto co traci Twoja firma — i co możesz odzyskać</h1>
+                    <p class="results-subtitle">Kalkulacja oparta na Twoich odpowiedziach i danych 200+ firm korzystających z NAIS.</p>
+                </div>
+
+                <!-- SEKCJA A: Trzy liczby policzalne -->
+                <div class="section-title-results">Roczne korzyści operacyjne i finansowe</div>
+                <div class="cards-grid">
+                    <!-- KARTA 1: GODZINY -->
+                    <div class="result-card">
+                        <div class="card-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#108A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12 6V12L16 14" stroke="#108A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="card-value" id="res-hours"><div class="single-value-display">1 200</div></div>
+                        <div class="card-metric">godzin</div>
+                        <div class="card-description">rocznie odzyskujecie na obsłudze HR i wniosków</div>
+                    </div>
+
+                    <!-- KARTA 2: PLN / PRACOWNIK -->
+                    <div class="result-card">
+                        <div class="card-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M17 21V19C17 17.9391 16.5786 16.9217 15.8284 16.1716C15.0783 15.4214 14.0609 15 13 15H5C3.93913 15 2.92172 15.4214 2.17157 16.1716C1.42143 16.9217 1 17.9391 1 19V21" stroke="#108A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M9 11C11.2091 11 13 9.20914 13 7C13 4.79086 11.2091 3 9 3C6.79086 3 5 4.79086 5 7C5 9.20914 6.79086 11 9 11Z" stroke="#108A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M23 21V19C22.9993 18.1137 22.6908 17.2561 22.126 16.5685C21.5612 15.8808 20.7749 15.4056 19.9 15.22" stroke="#108A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M16 3.13C16.8847 3.32431 17.6775 3.8054 18.2435 4.49887C18.8095 5.19234 19.1168 6.05602 19.1168 6.95C19.1168 7.84398 18.8095 8.70766 18.2435 9.40113C17.6775 10.0946 16.8847 10.5757 16 10.77" stroke="#108A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="card-value" id="res-per-employee"></div>
+                        <div class="card-metric">na pracownika</div>
+                        <div class="card-description">roczna korzyść w przeliczeniu na jedną osobę</div>
+                    </div>
+
+                    <!-- KARTA 3: PLN W SKALI ROKU -->
+                    <div class="result-card highlight">
+                        <div class="card-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 1V23" stroke="#FFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M17 5H9.5C8.30653 5 7.16193 5.47411 6.31802 6.31802C5.47411 7.16193 5 8.30653 5 9.5C5 10.6935 5.47411 11.8381 6.31802 12.682C7.16193 13.5259 8.30653 14 9.5 14H14.5C15.6935 14 16.8381 14.4741 17.682 15.318C18.5259 16.1619 19 17.3065 19 18.5C19 19.6935 18.5259 20.8381 17.682 21.682C16.8381 22.5259 15.6935 23 14.5 23H5" stroke="#FFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="card-value" id="res-total"></div>
+                        <div class="card-metric text-white">łącznie rocznie</div>
+                        <div class="card-description text-white">łączna korzyść finansowa — szacunek</div>
+                    </div>
+                </div>
+
+                <p class="results-footnote">
+                    Kalkulacja obejmuje czas pracowników i HR zaoszczędzony na obsłudze wniosków i administracji — na podstawie benchmarków z 200+ wdrożeń NAIS.
+                </p>
+                <p class="capped-footnote hidden" id="capped-warning">
+                    * Wycena korzyści na pracownika została zlimitowana do dwukrotności średniego miesięcznego wynagrodzenia w celu zachowania konserwatywnego charakteru szacunków.
+                </p>
+
+                <!-- SEKCJA B: Korzyści korporacyjne (szare tło) -->
+                <div class="corporate-benefits-block">
+                    <h2 class="corp-block-title">Obok tych oszczędności firmy korzystające z NAIS raportują:</h2>
+
+                    <!-- Punkt 1: Zaangażowanie -->
+                    <div class="corp-benefit-item">
+                        <div class="corp-benefit-marker">
+                            <span class="badge-green">Nawet o <span id="res-delta-e">5</span> pp</span>
+                        </div>
+                        <div class="corp-benefit-content">
+                            <h3>Wzrost zaangażowania pracowników</h3>
+                            <p>Przełoży się to (według Gallup) na nawet 1–2% wyższą produktywność w skali firmy. Orientacyjna wartość dla Twojej organizacji: <strong><span id="res-engagement-val-range">120 000 - 240 000</span> PLN rocznie</strong>.</p>
+                            <p class="sub-text">Przyjmujemy wzrost zaangażowania o 5 pp dla pierwszego roku — pełny efekt zazwyczaj występuje po 2–3 latach, w zależności od firmy i tempa absorpcji zmiany.</p>
+                            <span class="source-tag">Źródło: Gallup Q12 Meta-Analysis 2024, 2,7 mln pracowników.</span>
+                        </div>
+                    </div>
+
+                    <!-- Punkt 2: Benefity -->
+                    <div class="corp-benefit-item">
+                        <div class="corp-benefit-marker">
+                            <span class="badge-green">Nawet o <span id="res-delta-u">35</span>%</span>
+                        </div>
+                        <div class="corp-benefit-content">
+                            <h3>Poprawa realizacji polityki benefitowej</h3>
+                            <p>Pracownicy klientów NAIS korzystają średnio z 91–95% przyznanych budżetów. Twoi pracownicy korzystają dziś szacunkowo z <strong><span id="res-current-u">58</span>%</strong>. Ten sam budżet — wyższy efekt motywacyjny.</p>
+                        </div>
+                    </div>
+
+                    <!-- Punkt 3: Komunikacja -->
+                    <div class="corp-benefit-item">
+                        <div class="corp-benefit-marker">
+                            <span class="badge-green">60-80%</span>
+                        </div>
+                        <div class="corp-benefit-content">
+                            <h3>Lepsza komunikacja i mniej pytań do HR</h3>
+                            <p>Redukcja powtarzających się pytań o 60–80%. Twój zespół HR zyskuje czas na działania strategiczne zamiast odpowiadania wciąż na te same wnioski.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SEKCJA D: Gwarancje po 6 miesiącach -->
+                <div class="guarantees-block">
+                    <h2 class="guarantees-title">Co gwarantujemy po 6 miesiącach wdrożenia</h2>
+                    <div class="table-responsive">
+                        <table class="guarantees-table">
+                            <thead>
+                                <tr>
+                                    <th>Gwarancja</th>
+                                    <th>Rezultat</th>
+                                    <th>Co to oznacza dla Ciebie</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="bold">Aktywacja użytkowników &gt;80%</td>
+                                    <td>Ponad 4 na 5 pracowników korzysta z platformy</td>
+                                    <td>Eliminacja wykluczenia cyfrowego</td>
+                                </tr>
+                                <tr>
+                                    <td class="bold">Ponad 10 zelektronizowanych procesów</td>
+                                    <td>Minimum 10 typów wniosków w pełni cyfrowych</td>
+                                    <td>Zero papierowych obiegów dla kluczowych procesów</td>
+                                </tr>
+                                <tr>
+                                    <td class="bold">Poprawność wniosków &gt;99,5%</td>
+                                    <td>Praktycznie zero błędnych wniosków</td>
+                                    <td>Brak konieczności ręcznych poprawek przez HR</td>
+                                </tr>
+                                <tr>
+                                    <td class="bold">Automatyzacja rozliczeń 100%</td>
+                                    <td>Pełna automatyzacja rozliczeń (benefitów, ZFŚS, dekretów)</td>
+                                    <td>Koniec ręcznych przeliczeń i pomyłek w listach płac</td>
+                                </tr>
+                                <tr>
+                                    <td class="bold">Satysfakcja użytkowników &gt;80%</td>
+                                    <td>Ponad 80% pracowników zadowolonych / b. zadowolonych</td>
+                                    <td>Platforma, którą ludzie chcą używać</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- SEKCJA C: CTA -->
+                <div class="cta-block">
+                    <p class="cta-text">
+                        Nasz konsultant zweryfikuje te liczby na Twoich rzeczywistych danych i przygotuje dedykowany raport w ciągu 2 dni roboczych.
+                    </p>
+                    <div class="cta-actions">
+                        <button type="button" class="btn btn-primary btn-large" id="btn-final-cta">Umów bezpłatną konsultację →</button>
+                    </div>
+                    <p class="cta-subtext">
+                        Dlatego ponad 200 firm — w tym z Twojej branży — wybrało NAIS do obsługi swoich pracowników.
+                    </p>
+                </div>
+
+                <div class="back-link-wrapper margin-top-32">
+                    <button type="button" class="btn-back-text" id="btn-results-reset">← Wypełnij kalkulator ponownie</button>
+                </div>
+            </section>
+        </main>
+
+        <footer class="app-footer">
+            <p>&copy; 2026 Nais.co. Wszelkie prawa zastrzeżone. Kalkulator oparty na modelach statystycznych Nais.</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
