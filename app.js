@@ -502,11 +502,7 @@ function calculateAndRender() {
     const wzrost_prod = (E_docelowe - E) * 0.18;
     const wartosc_A3 = N * W * 12 * wzrost_prod;
 
-    const A3Min = Math.round((wartosc_A3 * 0.7) / 1000) * 1000;
-    const A3Max = Math.round((wartosc_A3 * 1.3) / 1000) * 1000;
-
     document.getElementById('res-delta-e').innerText = delta_E_pp;
-    document.getElementById('res-engagement-val-range').innerText = `${formatCurrency(A3Min)} - ${formatCurrency(A3Max)}`;
 
     // 2. Realizacja polityki benefitowej
     const delta_U = 0.925 - U; // Benchmark Nais to 92.5% (0.925)
