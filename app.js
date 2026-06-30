@@ -75,6 +75,8 @@ let navigationHistory = [];
 
 // DOM Elements
 const screens = {
+    landingCfo: document.getElementById('screen-landing-cfo'),
+    landingHr: document.getElementById('screen-landing-hr'),
     company: document.getElementById('screen-company'),
     disqualified: document.getElementById('screen-disqualified'),
     processes: document.getElementById('screen-processes'),
@@ -89,6 +91,12 @@ const progressWrapper = document.getElementById('progress-bar-wrapper');
 // Inicjalizacja i event listenery po zaladowaniu DOM
 document.addEventListener('DOMContentLoaded', () => {
     initEventListeners();
+    detectLandingPage();
+});
+
+// Obsługa zmiany hasha w adresie URL bez przeładowania strony (ułatwia testowanie lokalne)
+window.addEventListener('hashchange', () => {
+    detectLandingPage();
 });
 
 function initEventListeners() {
@@ -272,6 +280,22 @@ function initEventListeners() {
         console.log('%c[NAIS LEAD MAGNET] CTA kliknięte dla leada:', 'color: #108a00; font-weight: bold;', state);
         alert(`Dziękujemy! Twój wniosek o bezpłatną konsultację został przekazany do doradcy NAIS. Skontaktujemy się z Tobą na adres: ${state.leadInfo.email} w ciągu 2 dni roboczych.`);
     });
+
+    // LANDING PAGES CTA BUTTONS
+    const btnLandingCfoCta = document.getElementById('btn-landing-cfo-cta');
+    const btnLandingHrCta = document.getElementById('btn-landing-hr-cta');
+
+    if (btnLandingCfoCta) {
+        btnLandingCfoCta.addEventListener('click', () => {
+            transitionToScreen('company');
+        });
+    }
+
+    if (btnLandingHrCta) {
+        btnLandingHrCta.addEventListener('click', () => {
+            transitionToScreen('company');
+        });
+    }
 }
 
 // Funkcja walidacji adresu e-mail
@@ -323,11 +347,15 @@ function transitionToScreen(targetScreenId, recordHistory = true) {
 
     // 2. Wylaczamy wszystkie ekrany
     Object.values(screens).forEach(screen => {
-        screen.classList.remove('active');
+        if (screen) {
+            screen.classList.remove('active');
+        }
     });
 
     // 3. Wlaczamy wybrany ekran
-    screens[targetScreenId].classList.add('active');
+    if (screens[targetScreenId]) {
+        screens[targetScreenId].classList.add('active');
+    }
 
     // Scrollujemy do gory app-container
     document.querySelector('.app-container').scrollIntoView({ behavior: 'smooth' });
@@ -348,13 +376,22 @@ function updateProgressBar(screenId) {
     };
 
     const currentStep = indicators[screenId];
+    const appHeader = document.querySelector('.app-header');
 
-    if (screenId === 'disqualified') {
-        progressWrapper.style.display = 'none';
+    if (screenId === 'landingCfo' || screenId === 'landingHr') {
+        if (progressWrapper) progressWrapper.style.display = 'none';
+        if (appHeader) appHeader.style.display = 'none';
         return;
     }
 
-    progressWrapper.style.display = 'block';
+    if (screenId === 'disqualified') {
+        if (progressWrapper) progressWrapper.style.display = 'none';
+        if (appHeader) appHeader.style.display = 'flex';
+        return;
+    }
+
+    if (progressWrapper) progressWrapper.style.display = 'block';
+    if (appHeader) appHeader.style.display = 'flex';
 
     const stepElements = [
         { el: document.getElementById('step-1-indicator'), stepNum: 1 },
@@ -364,14 +401,44 @@ function updateProgressBar(screenId) {
     ];
 
     stepElements.forEach(item => {
-        item.el.classList.remove('active', 'completed');
-        
-        if (item.stepNum === currentStep) {
-            item.el.classList.add('active');
-        } else if (item.stepNum < currentStep) {
-            item.el.classList.add('completed');
+        if (item.el) {
+            item.el.classList.remove('active', 'completed');
+            
+            if (item.stepNum === currentStep) {
+                item.el.classList.add('active');
+            } else if (item.stepNum < currentStep) {
+                item.el.classList.add('completed');
+            }
         }
     });
+}
+
+// Funkcja detekcji wariantów Landing Page na podstawie URL
+function detectLandingPage() {
+    const path = window.location.pathname.toLowerCase();
+    const hash = window.location.hash.toLowerCase();
+    const search = window.location.search.toLowerCase();
+
+    // Sprawdzenie wariantu CFO/CEO
+    const isCfo = path.includes('efektywnosc-kosztowa') || 
+                  hash.includes('efektywnosc-kosztowa') || 
+                  search.includes('variant=cfo') ||
+                  search.includes('utm_campaign=efektywnosc-kosztowa');
+
+    // Sprawdzenie wariantu HR Decydentów
+    const isHr = path.includes('efektywnosc-hr') || 
+                 hash.includes('efektywnosc-hr') || 
+                 search.includes('variant=hr') ||
+                 search.includes('utm_campaign=efektywnosc-hr');
+
+    if (isCfo) {
+        transitionToScreen('landingCfo');
+    } else if (isHr) {
+        transitionToScreen('landingHr');
+    } else {
+        // Domyślny start (krok 1)
+        transitionToScreen('company');
+    }
 }
 
 // Logika symulacji obliczen i wyswietlania wyników
