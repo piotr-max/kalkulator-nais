@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kalkulator Korzyści HR - Nais</title>
+    <!-- Favicon -->
+    <link rel="icon" href="https://cdn.prod.website-files.com/66604cf21ffe1f9273e75a1b/6665c254d12b155dd45cff2e_cropped-nais-favicon-32x32.png" type="image/png">
+    <link rel="shortcut icon" href="https://cdn.prod.website-files.com/66604cf21ffe1f9273e75a1b/6665c254d12b155dd45cff2e_cropped-nais-favicon-32x32.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="https://cdn.prod.website-files.com/66604cf21ffe1f9273e75a1b/6665c3aa5ecfdf37f455593e_nais%20logo.png">
     <!-- Google Fonts: Montserrat dla nagłówków, Open Sans dla tekstu -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -193,21 +197,21 @@
                         <p>Ale to nie znaczy, że nie możemy Ci pomóc. Nasz konsultant przeprowadzi analizę indywidualnie — na podstawie Twoich rzeczywistych danych, nie uśrednień.</p>
                     </div>
 
-                    <form id="disqualified-form" class="disqualified-form">
+                    <form id="disqualified-form" class="disqualified-form" action="https://submit-form.com/lb3dR0s8p" method="POST">
                         <div class="form-row">
                             <div class="form-group-half">
                                 <label for="disq-name" class="input-label-sm">Imię i nazwisko</label>
-                                <input type="text" id="disq-name" class="form-input" placeholder="Wpisz imię i nazwisko" required>
+                                <input type="text" id="disq-name" name="name" class="form-input" placeholder="Wpisz imię i nazwisko" required>
                             </div>
                             <div class="form-group-half">
                                 <label for="disq-email" class="input-label-sm">Służbowy e-mail</label>
-                                <input type="email" id="disq-email" class="form-input" placeholder="adres@firma.pl" required>
+                                <input type="email" id="disq-email" name="email" class="form-input" placeholder="adres@firma.pl" required>
                                 <span class="error-msg" id="disq-email-error"></span>
                             </div>
                         </div>
                         <div class="form-group-checkbox">
                             <label class="checkbox-label" for="disq-gdpr">
-                                <input type="checkbox" id="disq-gdpr" required>
+                                <input type="checkbox" id="disq-gdpr" name="gdpr" required>
                                 <span class="checkbox-text">Wyrażam zgodę na przetwarzanie moich danych osobowych zgodnie z RODO w celu otrzymania materiałów marketingowych od NAIS.</span>
                             </label>
                         </div>
@@ -335,21 +339,21 @@
                 <h1 class="screen-title">Twoja analiza jest gotowa</h1>
                 <p class="screen-subtitle">Zostaw dane — konsultant NAIS prześle Ci pełny raport z wyliczeniami w ciągu jednego dnia roboczego.</p>
 
-                <form id="lead-form" class="lead-form">
+                <form id="lead-form" class="lead-form" action="https://submit-form.com/g1yxf5OOn" method="POST">
                     <div class="form-group">
                         <label for="lead-name" class="input-label">Imię i nazwisko</label>
-                        <input type="text" id="lead-name" class="form-input" placeholder="Wpisz imię i nazwisko" required>
+                        <input type="text" id="lead-name" name="name" class="form-input" placeholder="Wpisz imię i nazwisko" required>
                     </div>
 
                     <div class="form-group">
                         <label for="lead-email" class="input-label">Służbowy adres e-mail</label>
-                        <input type="email" id="lead-email" class="form-input" placeholder="imię.nazwisko@twojafirma.pl" required>
+                        <input type="email" id="lead-email" name="email" class="form-input" placeholder="imię.nazwisko@twojafirma.pl" required>
                         <span class="error-msg" id="lead-email-error"></span>
                     </div>
 
                     <div class="form-group">
                         <label for="lead-role" class="input-label">Stanowisko</label>
-                        <select id="lead-role" class="form-select" required>
+                        <select id="lead-role" name="role" class="form-select" required>
                             <option value="" disabled selected>Wybierz stanowisko...</option>
                             <option value="hr">Dyrektor / Specjalista HR</option>
                             <option value="cxo">CEO / CFO / Zarząd</option>
@@ -360,7 +364,7 @@
 
                     <div class="form-group-checkbox">
                         <label class="checkbox-label" for="lead-gdpr">
-                            <input type="checkbox" id="lead-gdpr" required>
+                            <input type="checkbox" id="lead-gdpr" name="gdpr" required>
                             <span class="checkbox-text">Wyrażam zgodę na przetwarzanie moich danych osobowych zgodnie z RODO w celu otrzymania materiałów marketingowych od NAIS.</span>
                         </label>
                     </div>
@@ -534,7 +538,7 @@
                         Nasz konsultant zweryfikuje te liczby na Twoich rzeczywistych danych i przygotuje dedykowany raport w ciągu 2 dni roboczych.
                     </p>
                     <div class="cta-actions">
-                        <button type="button" class="btn btn-primary btn-large" id="btn-final-cta">Umów bezpłatną konsultację →</button>
+                        <a href="https://www.nais.co/pl/kontakt/zapytaj-o-oferte" class="btn btn-primary btn-large" id="btn-final-cta" target="_blank" rel="noopener noreferrer">Umów bezpłatną konsultację →</a>
                     </div>
                     <p class="cta-subtext">
                         Dlatego ponad 200 firm — w tym z Twojej branży — wybrało NAIS do obsługi swoich pracowników.

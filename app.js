@@ -163,19 +163,44 @@ function initEventListeners() {
         validateEmailField(disqEmail, disqEmailError);
     });
 
-    disqForm.addEventListener('submit', (e) => {
+    disqForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         if (!validateEmailField(disqEmail, disqEmailError)) {
             return;
         }
         
-        state.leadInfo.name = document.getElementById('disq-name').value;
-        state.leadInfo.email = disqEmail.value;
+        const nameVal = document.getElementById('disq-name').value.trim();
+        const emailVal = disqEmail.value.trim();
+        const gdprVal = document.getElementById('disq-gdpr').checked;
+        const btnDisqSubmit = document.getElementById('btn-disq-submit');
+
+        state.leadInfo.name = nameVal;
+        state.leadInfo.email = emailVal;
         state.leadInfo.role = 'Firma < 1000 pracowników';
 
         console.log('%c[NAIS LEAD MAGNET] Lead z Ekranu Dyskwalifikacji:', 'color: #108a00; font-weight: bold;', state);
         
-        alert(`Dziękujemy ${state.leadInfo.name}! Twój wniosek o indywidualną konsultację został zapisany. Skontaktujemy się na adres ${state.leadInfo.email} w ciągu 1 dnia roboczego.`);
+        const originalBtnText = btnDisqSubmit.innerText;
+        btnDisqSubmit.disabled = true;
+        btnDisqSubmit.innerText = 'Wysyłanie...';
+
+        const payload = {
+            "_email.subject": `Nowy lead (<1000 pracowników): ${nameVal}`,
+            "Formularz": "Indywidualna konsultacja (poniżej 1000 pracowników)",
+            "Imię i nazwisko": nameVal,
+            "Służbowy e-mail": emailVal,
+            "Zgoda RODO": gdprVal ? "Tak" : "Nie",
+            "Liczba pracowników": "Poniżej 1 000",
+            "Wynagrodzenie": salaryRanges[state.salaryRangeKey]?.label || "Nie określono",
+            "Branża": industries[state.industryKey]?.label || "Nie określono"
+        };
+
+        await sendFormsparkData('https://submit-form.com/lb3dR0s8p', payload);
+
+        btnDisqSubmit.disabled = false;
+        btnDisqSubmit.innerText = originalBtnText;
+
+        alert(`Dziękujemy ${nameVal}! Twój wniosek o indywidualną konsultację został zapisany. Skontaktujemy się na adres ${emailVal} w ciągu 1 dnia roboczego.`);
         resetCalculator();
     });
 
@@ -261,9 +286,41 @@ function initEventListeners() {
             return;
         }
 
-        state.leadInfo.name = document.getElementById('lead-name').value;
-        state.leadInfo.email = leadEmail.value;
-        state.leadInfo.role = document.getElementById('lead-role').value;
+        const nameVal = document.getElementById('lead-name').value.trim();
+        const emailVal = leadEmail.value.trim();
+        const roleSelect = document.getElementById('lead-role');
+        const roleText = roleSelect.options[roleSelect.selectedIndex] ? roleSelect.options[roleSelect.selectedIndex].text : roleSelect.value;
+        const gdprVal = document.getElementById('lead-gdpr').checked;
+
+        state.leadInfo.name = nameVal;
+        state.leadInfo.email = emailVal;
+        state.leadInfo.role = roleText;
+
+        const metrics = getCalculatedMetrics();
+
+        const payload = {
+            "_email.subject": `Nowy lead (Kalkulator NAIS): ${nameVal} (${roleText})`,
+            "Formularz": "Główny formularz (Kalkulator NAIS)",
+            "Imię i nazwisko": nameVal,
+            "Służbowy e-mail": emailVal,
+            "Stanowisko": roleText,
+            "Zgoda RODO": gdprVal ? "Tak" : "Nie",
+            "Liczba pracowników": employeeRanges[state.employeeRangeKey]?.label || "",
+            "Wynagrodzenie": salaryRanges[state.salaryRangeKey]?.label || "",
+            "Branża": industries[state.industryKey]?.label || "",
+            "Procesy papierowe": state.paperPercentage !== null ? `${state.paperPercentage}%` : "",
+            "Zaangażowanie": engagementLevels[state.engagementKey]?.label || "",
+            "Komunikacja": communicationLevels[state.communicationKey]?.label || ""
+        };
+
+        if (metrics) {
+            payload["Odzyskane godziny rocznie"] = `${formatHours(metrics.roundedHours)} h`;
+            payload["Oszczędność na pracownika"] = `od ${formatCurrency(metrics.perEmpMin)} PLN do ${formatCurrency(metrics.perEmpMax)} PLN`;
+            payload["Łączna oszczędność rocznie"] = `od ${formatCurrency(metrics.totalMin)} PLN do ${formatCurrency(metrics.totalMax)} PLN`;
+        }
+
+        console.log('%c[NAIS LEAD MAGNET] Wysyłanie głównego leada do Formspark...', 'color: #108a00; font-weight: bold;', payload);
+        sendFormsparkData('https://submit-form.com/g1yxf5OOn', payload);
 
         runCalculationsAndShowResults();
     });
@@ -276,10 +333,11 @@ function initEventListeners() {
         resetCalculator();
     });
 
-    btnFinalCta.addEventListener('click', () => {
-        console.log('%c[NAIS LEAD MAGNET] CTA kliknięte dla leada:', 'color: #108a00; font-weight: bold;', state);
-        alert(`Dziękujemy! Twój wniosek o bezpłatną konsultację został przekazany do doradcy NAIS. Skontaktujemy się z Tobą na adres: ${state.leadInfo.email} w ciągu 2 dni roboczych.`);
-    });
+    if (btnFinalCta) {
+        btnFinalCta.addEventListener('click', () => {
+            console.log('%c[NAIS LEAD MAGNET] CTA umów bezpłatną konsultację kliknięte:', 'color: #108a00; font-weight: bold;', state);
+        });
+    }
 
     // LANDING PAGES CTA BUTTONS
     const btnLandingCfoCta = document.getElementById('btn-landing-cfo-cta');
@@ -328,6 +386,80 @@ function validateEmailField(inputElement, errorElement) {
     errorElement.innerText = '';
     inputElement.style.borderColor = 'var(--primary)';
     return true;
+}
+
+// Funkcja pomocnicza do wysyłania danych do Formspark
+async function sendFormsparkData(formUrl, data) {
+    try {
+        const response = await fetch(formUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify(data),
+        });
+        if (!response.ok) {
+            console.error('[Formspark] Błąd podczas wysyłania formularza:', response.status, response.statusText);
+        } else {
+            console.log('%c[Formspark] Wysyłka udana!', 'color: #108a00; font-weight: bold;', data);
+        }
+        return response.ok;
+    } catch (err) {
+        console.error('[Formspark] Wystąpił błąd sieci:', err);
+        return false;
+    }
+}
+
+// Funkcja pomocnicza wyliczająca podsumowanie wyników do wysyłki Formspark
+function getCalculatedMetrics() {
+    const empConfig = employeeRanges[state.employeeRangeKey];
+    const salConfig = salaryRanges[state.salaryRangeKey];
+    const engConfig = engagementLevels[state.engagementKey];
+    const commConfig = communicationLevels[state.communicationKey];
+
+    if (!empConfig || !salConfig || !engConfig || !commConfig) {
+        return null;
+    }
+
+    const N = empConfig.N;
+    const HR_ops = empConfig.HR_ops;
+    const V = empConfig.V;
+    const W = salConfig.W;
+    const W_hr = W * 1.35;
+    const P = (state.paperPercentage !== null ? state.paperPercentage : 45) / 100;
+
+    const oszczednosc_min = N * V * P * 12;
+    const oszczednosc_h_A1 = oszczednosc_min / 60;
+    const stawka_min = W / (168 * 60);
+    const wartosc_A1 = oszczednosc_min * stawka_min;
+
+    const godziny_admin_tyg = HR_ops * 10;
+    const oszczednosc_h_A2 = godziny_admin_tyg * 0.65 * 48;
+    const wartosc_A2 = oszczednosc_h_A2 * (W_hr / 168);
+
+    const laczna_h = oszczednosc_h_A1 + oszczednosc_h_A2;
+    let wartosc_laczna = wartosc_A1 + wartosc_A2;
+    let per_pracownik = N > 0 ? wartosc_laczna / N : 0;
+
+    if (per_pracownik > W * 2.5) {
+        per_pracownik = W * 2.0;
+        wartosc_laczna = per_pracownik * N;
+    }
+
+    const roundedHours = Math.round(laczna_h / 100) * 100;
+    const perEmpMin = Math.round((per_pracownik * 0.8) / 10) * 10;
+    const perEmpMax = Math.round((per_pracownik * 1.2) / 10) * 10;
+    const totalMin = Math.round((wartosc_laczna * 0.8) / 1000) * 1000;
+    const totalMax = Math.round((wartosc_laczna * 1.2) / 1000) * 1000;
+
+    return {
+        roundedHours,
+        perEmpMin,
+        perEmpMax,
+        totalMin,
+        totalMax
+    };
 }
 
 // Funkcja obslugujaca przejscia miedzy ekranami z animacja i aktualizacja paska postepu
