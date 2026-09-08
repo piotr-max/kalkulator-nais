@@ -180,6 +180,8 @@ function initEventListeners() {
 
         console.log('%c[NAIS LEAD MAGNET] Lead z Ekranu Dyskwalifikacji:', 'color: #108a00; font-weight: bold;', state);
         
+        gtag_report_conversion();
+        
         const originalBtnText = btnDisqSubmit.innerText;
         btnDisqSubmit.disabled = true;
         btnDisqSubmit.innerText = 'Wysyłanie...';
@@ -320,6 +322,7 @@ function initEventListeners() {
         }
 
         console.log('%c[NAIS LEAD MAGNET] Wysyłanie głównego leada do Formspark...', 'color: #108a00; font-weight: bold;', payload);
+        gtag_report_conversion();
         sendFormsparkData('https://submit-form.com/g1yxf5OOn', payload);
 
         runCalculationsAndShowResults();
